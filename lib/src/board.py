@@ -24,6 +24,9 @@ class Board:
 
 
     def increase_volume(self, amount: int) -> None:
+
+        assert isinstance(amount, int), f"amount is not a int: {type(amount)}"
+
         cnt = 0
         if self._config.playis is not None:
             pass
@@ -38,6 +41,9 @@ class Board:
 
 
     def decrease_volume(self, amount: int) -> None:
+
+        assert isinstance(amount, int), f"amount is not a int: {type(amount)}"
+
         cnt = 0
         if self._config.playis is not None:
             pass
@@ -69,7 +75,7 @@ class Board:
         else:
             print("play_pause is not avaliable")
 
-    def fullscreen(self,) -> None:
+    def fullscreen(self) -> None:
         if self._config.fullscreen is not None:
             keyboard.press_and_release(self._config.fullscreen)
         else:

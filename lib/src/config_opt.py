@@ -24,6 +24,9 @@ class Config:
     def init_config(fd: File, _class: str) -> File:
         """ load in the player config """
 
+        assert isinstance(fd, str), f"fd is not a string: {type(fd)}"
+        assert isinstance(_class, str), f"_class is not a string {type(_class)}"
+
         with open(fd, 'r') as fd_:
             try:
                 # load in the yaml file and apply the config settings
