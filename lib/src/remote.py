@@ -2,13 +2,13 @@
 #   NOTE: This is the main runtime file
 #
 #   /title    remote.py
-# 
+#
 #   /author   Nathan reed<nreed@linux.com>
 #
 #   /desc     Main runtime for the mote
 #
 
-from qr import init_qr_code
+from qr import init_qr_code, cleanup_tmp_qrcode
 from PIL import Image
 from flask import Flask, render_template
 import socket
@@ -22,6 +22,10 @@ app = Flask(__name__)
 def app_health() -> str:
     return "<h1>I am Healthy!</h1>"
 
+@app.route("/dialog")
+def app_dialog() -> str:
+    return render_template("dialog.html")
+
 @app.route("/qr")
 def qr(qrcode: str) -> str:
     """ this is to ensure that we have access to original qrcode """
@@ -30,15 +34,15 @@ def qr(qrcode: str) -> str:
 @app.route("/info")
 def info() -> str:
     return render_template()
-    
-@app.route("/home") -> None:
+
+@app.route("/")
+def home() -> None:
     """ render the remote template, via index.html """
 
-    return render_template("../templates/index.html")
+    return render_template("index.html")
 
 def main() -> None:
-    ports = [692, 9191, 999, 992]
-    port = None
+    port = 5000
 
     # get ip routine which is a little hacky, but should work just fine
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -46,30 +50,15 @@ def main() -> None:
     ip_ = sock.getsockname()[0]
     sock.close()
 
-    # ensure that we have a port 
-    for port in ports:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        # see if the socket we pass in exists on the system already
-        if sock.connect_ex(("localhost", port)) == 0:
-            print(f"using port: {port}")
-            sock.close()
-
-    if port is None:
-        sock.close()
-        print("could not find port")
-        sys.exit(1)
+    # ensure that we have a port
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # See --> qr.py
     init_qr_code(ip_, port)
 
-    o_image = Image.open("tmp_qr.svg")
+    o_image = Image.open("../static/tmp_qr.png")
     o_image.show()
-
-    # FIXME: some runtime loop here
-
-    # See --> qr.py
-    cleanup_tmp_qrcode()
+    app.run(host="0.0.0.0")
 
 if __name__ == "__main__":
     main()

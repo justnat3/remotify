@@ -1,6 +1,6 @@
 #
 #   /title    board.py
-# 
+#
 #   /author   Nathan reed<nreed@linux.com>
 #
 #   /desc     instructions to control the player in the browser
@@ -45,7 +45,7 @@ class Board:
         assert isinstance(amount, int), f"amount is not a int: {type(amount)}"
 
         cnt = 0
-        if self._config.playis is not None:
+        if self._config.play is not None:
             pass
         else:
             print("decrease volume is not avaliable")
