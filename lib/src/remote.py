@@ -9,6 +9,7 @@
 #   /desc     Main runtime for the mote
 #
 
+from typing import Any
 from flask import Flask, render_template, request
 from qr import init_qr_code, cleanup_tmp_qrcode
 from config_opt import Config
@@ -21,74 +22,54 @@ import sys
 app = Flask(__name__)
 
 @app.route("/")
-def home() -> None:
+def home() -> str:
     """ render the remote template, via index.html """
 
     return render_template("index.html")
 
 
 @app.route('/option', methods=['POST'])
-def option() -> dict:
+def push_option_request() -> dict:
     """ send response back for keyboard operation """
 
     c = Config()
     c.init_config("Youtube")
-
     b = Board(c)
-
-    json = request.get_json()
+    json: Any = request.get_json()
     res = json['typ']
-    print(res)
 
-    if res == "forward":
-        b.fast_forward()
-        return { "data": 0}
+    return _parse_request(b, res)
 
-    elif res == "backward":
-        b.go_backward()
-        return { "data": 0}
-    elif res == "next":
-        b.get_next_video()
-        return { "data": 0}
-    elif res == "play" or res == "pause":
-        b.pause_play_video()
-        return { "data": 0}
-    elif res == "prev":
-        b.get_previous_video()
-        return { "data": 0}
-    elif res == "vol_up":
-        b.increase_volume(1)
-        return { "data": 0}
-    elif res == "vol_down":
-        b.decrease_volume(1)
-        return { "data": 0}
-    elif res == "fullscreen":
-        b.fullscreen()
-        return { "data": 0}
-    else:
-        return { "data": 1}
+def _parse_request(b: Board, res: str) -> dict:
+    """ Parse the option request that comes and emit an event """
+
+    if res == "forward": return b.fast_forward()
+    elif res == "backward": return b.go_backward()
+    elif res == "next": return b.get_next_video()
+    elif res in {"play", "pause"}: return b.pause_play_video()
+    elif res == "prev": return b.get_previous_video()
+    elif res == "vol_up": return b.increase_volume(1)
+    elif res == "vol_down": return b.decrease_volume(1)
+    elif res == "fullscreen": return b.fullscreen()
+    else: return { "data": 1}
         
-
-
 def main() -> None:
-    port = 6565
+    PORT = 6565
 
     # get ip routine which is a little hacky, but should work just fine
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.connect(("8.8.8.8", 80))
-    ip_ = sock.getsockname()[0]
-    sock.close()
-
-    # ensure that we have a port
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.connect(("8.8.8.8", 80))
+        ip_ = sock.getsockname()[0]
+        sock.close()
 
     # See --> qr.py
-    init_qr_code(ip_, port)
+    init_qr_code(ip_, PORT)
 
-    # o_image = Image.open("../images/tmp_qr.png")
-    # o_image.show()
+    if "--test" not in sys.argv:
+        o_image = Image.open("../images/tmp_qr.png")
+        o_image.show()
 
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=PORT)
 
 if __name__ == "__main__":
     main()

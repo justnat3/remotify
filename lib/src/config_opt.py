@@ -32,18 +32,18 @@ COPY_OF_CONFIG = os.path.abspath("./players.cfg")
 
 @dataclass
 class Config:
-    player: str = field(init=False, default=None)
-    play: str = field(init=False, default=None)
-    pause: str = field(init=False, default=None)
-    next_: str = field(init=False, default=None)
-    prev_: str = field(init=False, default=None)
-    vol_up: str = field(init=False, default=None)
-    vol_down: str = field(init=False, default=None)
-    fullscreen: str = field(init=False, default=None)
-    forward: str = field(init=False, default=None)
-    backward: str = field(init=False, default=None)
+    player: str = field(init=False)
+    play: str = field(init=False)
+    pause: str = field(init=False)
+    next_: str = field(init=False)
+    prev_: str = field(init=False)
+    vol_up: str = field(init=False)
+    vol_down: str = field(init=False)
+    fullscreen: str = field(init=False)
+    forward: str = field(init=False)
+    backward: str = field(init=False)
 
-    def init_config(self, _class: str) -> File:
+    def init_config(self, _class: str) -> None:
         """ load in the player config """
         # global fd
         # full_fd = fd+os.path.sep+"players.cfg"
