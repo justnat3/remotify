@@ -40,6 +40,8 @@ class Config:
     vol_up: str = field(init=False, default=None)
     vol_down: str = field(init=False, default=None)
     fullscreen: str = field(init=False, default=None)
+    forward: str = field(init=False, default=None)
+    backward: str = field(init=False, default=None)
 
     def init_config(self, _class: str) -> File:
         """ load in the player config """
@@ -93,6 +95,8 @@ class Config:
                 self.vol_up = content[_class]['vol_up']
                 self.vol_down = content[_class]['vol_down']
                 self.fullscreen = content[_class]['fullscreen']
+                self.forward = content[_class]['forward']
+                self.backward = content[_class]['backward']
 
             except YAMLError:
                 print("unable to load config file")

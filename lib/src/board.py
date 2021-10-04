@@ -79,4 +79,15 @@ class Board:
             keyboard.press_and_release(self._config.fullscreen)
         else:
             print("fullscreen is not avaliable")
+    
+    def fast_forward(self) -> None:
+        if self._config.forward is not None:
+            keyboard.press_and_release(self._config.forward)
+        else:
+            print("forward is not avaliable")
 
+    def go_backward(self) -> None:
+        if self._config.backward is not None:
+            keyboard.press_and_release(self._config.forward)
+        else:
+            print("forward is not avaliable")

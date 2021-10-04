@@ -34,7 +34,7 @@
 
         async function send_option(url, typ) {
             const data = {
-                "typ": "next_vid",
+                "typ": typ,
             };
 
             const response = await fetch(url, {
@@ -65,38 +65,38 @@
 
             <h3>Video Options</h3>
             <li class="item">
-                <button>Next Video</button>
+                <button onclick="send_video_option_input('next')">Next Video</button>
             </li>
 
             <li class="item">
-                <button>Previous Video</button>
+                <button onclick="send_video_option_input('prev')">Previous Video</button>
             </li>
 
             <li class="item">
-                <button>Forward</button>
+                <button onclick="send_video_option_input('forward')">Forward</button>
             </li>
 
             <li class="item">
-                <button>Backwards</button>
+                <button onclick="send_video_option_input('backward')">Backwards</button>
             </li>
 
 
             <h3>Volume Options</h3>
             <li class="item">
-                <button>Volume Up</button>
+                <button onclick="send_video_option_input('vol_up')">Volume Up</button>
             </li>
 
             <li class="item">
-                <button>Volume Down</button>
+                <button onclick="send_video_option_input('vol_down')">Volume Down</button>
             </li>
 
             <h3>Play // Pause</h3>
             <li class="item">
-                <button>Play</button>
+                <button onclick="send_video_option_input('play')">Play</button>
             </li>
 
             <li class="item">
-                <button>Pause</button>
+                <button onclick="send_video_option_input('play')">Pause</button>
             </li>
         </ul>
 

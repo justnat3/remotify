@@ -38,8 +38,16 @@ def option() -> dict:
 
     json = request.get_json()
     res = json['typ']
+    print(res)
 
-    if res == "next_vid":
+    if res == "forward":
+        b.fast_forward()
+        return { "data": 0}
+
+    elif res == "backward":
+        b.go_backward()
+        return { "data": 0}
+    elif res == "next":
         b.get_next_video()
         return { "data": 0}
     elif res == "play" or res == "pause":
