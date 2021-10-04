@@ -1,0 +1,56 @@
+OVERVIEW
+
+  `remotify` is a virtual remote application to connect your phone to your computer like a tv remote.
+  written in `python[0]`
+  
+  In its current state this project is functional but it is buggy & incomplete.
+  I am constantly improving this project, so in time this comment here will go away.
+  
+  [0]: https://www.python.org/downloads/release/python-3812/
+  
+  - Nate
+  
+REQUIREMENTS
+
+  python 3.8
+  flask
+  qrcode
+  keyboard
+  pyaml
+
+BUILD & INSTALLATION
+
+  This can be run with the python interpreter, however I do have plans to compile this to a binary.
+  
+  // linux
+  cd lib/src; python3 remote.py
+
+  // windows
+  cd lib/src
+  python remote.py
+
+CONTRIBUTING
+
+There is currently no CONTRIBUTING file, but I honestly should make one here. 
+
+USAGE
+
+// linux
+  cd lib/src; python3 remote.py
+
+  // windows
+  cd lib/src
+  python remote.py
+  
+RUNNING INTO AN ISSUE/ERROR
+
+  Please! throw this into a issue. 
+  I really appreciate the feedback.
+
+LICENSE
+
+  This software is licensed under MIT. See the LICENSE file for more details.
+
+COPYRIGHT
+
+  (c) 2021 Nathan Reed
