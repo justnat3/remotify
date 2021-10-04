@@ -18,8 +18,11 @@ from PIL import Image
 import socket
 import sys
 
+
 #TODO: write a page-progress handler so that we can redirect to previous videos
 app = Flask(__name__)
+PORT = 6565
+
 
 @app.route("/")
 def home() -> str:
@@ -32,13 +35,24 @@ def home() -> str:
 def push_option_request() -> dict:
     """ send response back for keyboard operation """
 
-    c = Config()
-    c.init_config("Youtube")
-    b = Board(c)
+    # Get a response from the api
     json: Any = request.get_json()
     res = json['typ']
 
-    return _parse_request(b, res)
+    # make sure that we know what player we are going to use
+    config  = Config()
+    config.init_config("Youtube")
+    
+    # give the config to the board controller
+    board = Board(config)
+
+    # parse and emit a board event
+    # then send a response back to the user,
+    # should only return either 0 or 1
+    # 0 is that the operation was a success
+    # 1 is that the operation is not supported
+    return _parse_request(board, res)
+
 
 def _parse_request(b: Board, res: str) -> dict:
     """ Parse the option request that comes and emit an event """
@@ -53,8 +67,9 @@ def _parse_request(b: Board, res: str) -> dict:
     elif res == "fullscreen": return b.fullscreen()
     else: return { "data": 1}
         
-def main() -> None:
-    PORT = 6565
+
+def main() -> int:
+    """ our main run time """
 
     # get ip routine which is a little hacky, but should work just fine
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -65,11 +80,16 @@ def main() -> None:
     # See --> qr.py
     init_qr_code(ip_, PORT)
 
+    # when we are hacking, this is fucking annoying.    
+    # add a --test flag so that we dont have to see the qrcode
+    # the qr is for the user, not the developer
     if "--test" not in sys.argv:
         o_image = Image.open("../images/tmp_qr.png")
         o_image.show()
 
     app.run(host="0.0.0.0", port=PORT)
+
+    return 0
 
 if __name__ == "__main__":
     main()
