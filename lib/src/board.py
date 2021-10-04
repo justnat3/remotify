@@ -16,7 +16,6 @@ class Board:
     _config: Config
 
     def __post_init__(self):
-        self._config = Config("./players.cfg")
 
         if self._config.player is None:
             print("could not find player in config")
@@ -28,7 +27,7 @@ class Board:
         assert isinstance(amount, int), f"amount is not a int: {type(amount)}"
 
         cnt = 0
-        if self._config.playis is not None:
+        if self._config.vol_up is not None:
             pass
         else:
             print("decrease volume is not avaliable")
@@ -45,7 +44,7 @@ class Board:
         assert isinstance(amount, int), f"amount is not a int: {type(amount)}"
 
         cnt = 0
-        if self._config.play is not None:
+        if self._config.vol_down is not None:
             pass
         else:
             print("decrease volume is not avaliable")
@@ -58,19 +57,19 @@ class Board:
 
     def get_next_video(self) -> None:
         """ Shift+N ensures the next video will play for youtube. """
-        if self._config.playis is not None:
+        if self._config.next_ is not None:
             keyboard.press_and_release(self._config.next_)
         else:
             print("next is not avaliable")
 
     def get_previous_video(self) -> None:
-        if self._config.playis is not None:
+        if self._config.prev_ is not None:
             keyboard.press_and_release(self._config.prev_)
         else:
             print("prev video is not avaliable")
 
     def pause_play_video(self) -> None:
-        if self._config.playis is not None:
+        if self._config.play is not None:
             keyboard.press_and_release(self._config.play)
         else:
             print("play_pause is not avaliable")

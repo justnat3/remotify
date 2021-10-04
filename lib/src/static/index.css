@@ -22,7 +22,7 @@ h3 {
     display: block;
     height: 60%;
     padding: 30px 70px 30px;
-    color: rgb(219, 214, 214);
+    color: rgb(0, 0, 0);
     text-align: center;
     font-size: 20px;
     font-weight: 600;
@@ -71,12 +71,10 @@ h3 {
     background-color: #1EAEDB;
     border-color: #1EAEDB; }
 input {
-    width: 700px;
+    width: 300px;
 }
   
   
-  /* Forms
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   input[type="email"],
   input[type="number"],
   input[type="search"],
