@@ -18,7 +18,7 @@ def init_qr_code(ip: str, port: int) -> File:
     assert isinstance(port, int), "port: Not Typeof int"
 
     img = qrcode.make(f"http://{ip}:{str(port)}")
-    img.save("../static/tmp_qr.png")
+    img.save("../images/tmp_qr.png")
 
 def cleanup_tmp_qrcode() -> None:
     """ duh cleanup our qr image """

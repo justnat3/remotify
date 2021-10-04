@@ -57,8 +57,8 @@ def main() -> None:
     # See --> qr.py
     init_qr_code(ip_, port)
 
-    #o_image = Image.open("../static/tmp_qr.png")
-    #o_image.show()
+    o_image = Image.open("../images/tmp_qr.png")
+    o_image.show()
     app.run(host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
