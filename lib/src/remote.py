@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #
 #   NOTE: This is the main runtime file
 #
@@ -42,7 +43,7 @@ def home() -> None:
     return render_template("index.html")
 
 def main() -> None:
-    port = 5000
+    port = 6565
 
     # get ip routine which is a little hacky, but should work just fine
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -56,9 +57,9 @@ def main() -> None:
     # See --> qr.py
     init_qr_code(ip_, port)
 
-    o_image = Image.open("../static/tmp_qr.png")
-    o_image.show()
-    app.run(host="0.0.0.0")
+    #o_image = Image.open("../static/tmp_qr.png")
+    #o_image.show()
+    app.run(host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
     main()
