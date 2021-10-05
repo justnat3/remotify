@@ -84,25 +84,28 @@ class Config:
 
             try:
                 
-                contents = fd_.read()
-                # load in the yaml file and apply the config settings
-                content: dict = safe_load(contents)
-                self.player = _class
-                self.play = content[_class]['play']
-                self.pause = content[_class]['pause']
-                self.next_ = content[_class]['next']
-                self.prev_ = content[_class]['prev']
-                self.vol_up = content[_class]['vol_up']
-                self.vol_down = content[_class]['vol_down']
-                self.fullscreen = content[_class]['fullscreen']
-                self.forward = content[_class]['forward']
-                self.backward = content[_class]['backward']
-
+                self._extracted_from_init_config_42(fd_, _class)
             except YAMLError:
                 print("unable to load config file")
                 sys.exit(65)
 
             except KeyError as err:
                 print(f"Key->{err} in class_->{_class} does not exist")
+
+    # TODO Rename this here and in `init_config`
+    def _extracted_from_init_config_42(self, fd_, _class):
+        contents = fd_.read()
+        # load in the yaml file and apply the config settings
+        content: dict = safe_load(contents)
+        self.player = _class
+        self.play = content[_class]['play']
+        self.pause = content[_class]['pause']
+        self.next_ = content[_class]['next']
+        self.prev_ = content[_class]['prev']
+        self.vol_up = content[_class]['vol_up']
+        self.vol_down = content[_class]['vol_down']
+        self.fullscreen = content[_class]['fullscreen']
+        self.forward = content[_class]['forward']
+        self.backward = content[_class]['backward']
             
 
