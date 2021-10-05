@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #
 #   NOTE: This is the main runtime file
 #
@@ -9,11 +8,12 @@
 #   /desc     Main runtime for the mote
 #
 
-from typing import Any
 from flask import Flask, render_template, request
 from qr import init_qr_code, cleanup_tmp_qrcode
 from config_opt import Config
+from page import Browser
 from board import Board
+from typing import Any
 from PIL import Image
 import socket
 import sys
@@ -52,6 +52,21 @@ def push_option_request() -> dict:
     # 0 is that the operation was a success
     # 1 is that the operation is not supported
     return _parse_request(board, res)
+
+
+@app.route("/video", methods=["POST"])
+def open_() -> dict:
+    # Get a response from the api
+    json: Any = request.get_json()
+    res: str = json['url']
+
+    # make sure that we know what player we are going to use
+    config  = Config()
+    config.init_config("Youtube")
+    
+    brwser = Browser(res, config)
+
+    return brwser.open_media()
 
 
 def _parse_request(b: Board, res: str) -> dict:

@@ -104,3 +104,6 @@ class Board:
         else:
             print("forward is not avaliable")
             return { "data": 1 }
+
+    def close_window(self) -> None:
+        keyboard.press_and_release('ctrl+w')

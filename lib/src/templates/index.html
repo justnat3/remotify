@@ -13,31 +13,12 @@
         */
         let url = window.location.href;
 
-        /* 
-        * data = {} is what we are sending to the backend to be processed
-        */
-        function send_video_option_input(typ) {
-            /*
-            * send the option we receive from the user to our api
-            * this may return 1 which tells us that the operation 
-            * is not available on the backend
-            */
-            send_option(url+"/option", typ)
-                .then(data => {
-                    console.log(data.data);
-                    if(data.data == 1) {
-                        alert("Unsupported Function");
-                        console.log("Unsupported Function");
-                    }
-            });
-        } 
-
-        async function send_option(url, typ) {
+        async function send_video_option_input(typ) {
             const data = {
                 "typ": typ,
             };
 
-            const response = await fetch(url, {
+            const response = await fetch(url+"/option", {
                 method: 'POST',
                 mode: 'cors',
                 cache: 'no-cache',
@@ -50,7 +31,41 @@
                 body: JSON.stringify(data)
             });
 
-            return response.json();
+            response.json()
+                .then(data => {
+                    console.log(data.data);
+                    if(data.data == 1) {
+                        alert("Unsupported Function");
+                        console.log("Unsupported Function");
+                    }
+            });
+        }
+
+        async function open_media(murl) {
+            const data = {
+                "url": document.getElementById("vid-select").value,
+            }
+
+            const response = await fetch(url+'video', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            response.json()
+                .then(data => {
+                    console.log(data.data);
+                    if(data.data == 1) {
+                        alert("Could not open video")
+                    }
+            });
         }
 
     </script>
@@ -59,8 +74,8 @@
             <h3 style="margin-bottom: 0px;"> Video/Playlist To Play </h3>
 
             <li class="item">
-                <input style="margin-bottom: 30px;" type="text">
-                <button onclick="send_video_option_input('start')">Start</button>
+                <input id="vid-select" style="margin-bottom: 30px;" type="text">
+                <button onclick="open_media()">Start</button>
             </li>
 
             <h3>Video Options</h3>
